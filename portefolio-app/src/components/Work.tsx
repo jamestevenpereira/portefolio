@@ -63,6 +63,7 @@ function ProjectCard({
   isMobile: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   return (
     <a
@@ -95,28 +96,57 @@ function ProjectCard({
           position: "relative",
         }}
       >
-        <img
-          src={p.image}
-          alt={p.title}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            display: "block",
-            transition: "transform .4s ease",
-            transform: hovered && !isMobile ? "scale(1.04)" : "scale(1)",
-          }}
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).style.display = "none";
-            const parent = e.currentTarget.parentElement;
-            if (parent) {
-              parent.style.display = "flex";
-              parent.style.alignItems = "center";
-              parent.style.justifyContent = "center";
-              parent.innerHTML = `<span style="font-family:var(--mono);font-size:13px;color:var(--muted-2);letter-spacing:.1em">${p.num}</span>`;
-            }
-          }}
-        />
+        {!imgError ? (
+          <img
+            src={p.image}
+            alt={p.title}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+              transition: "transform .4s ease",
+              transform: hovered && !isMobile ? "scale(1.04)" : "scale(1)",
+            }}
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
+              background:
+                "linear-gradient(135deg, var(--surface-2) 0%, var(--bg-2) 100%)",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "var(--mono)",
+                fontSize: 28,
+                color: "var(--muted-2)",
+                letterSpacing: ".06em",
+              }}
+            >
+              {p.num}
+            </span>
+            <span
+              style={{
+                fontFamily: "var(--mono)",
+                fontSize: 11,
+                color: "var(--muted-2)",
+                letterSpacing: ".12em",
+                textTransform: "uppercase",
+              }}
+            >
+              imagem em breve
+            </span>
+          </div>
+        )}
       </div>
 
       {/* conteúdo */}

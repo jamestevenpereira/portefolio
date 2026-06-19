@@ -135,7 +135,7 @@ export default function Contact() {
             marginBottom: 22,
           }}
         >
-          06 — vamos trabalhar
+          06 vamos trabalhar
         </motion.div>
         <motion.h2
           variants={itemVariants}
@@ -165,7 +165,7 @@ export default function Contact() {
           }}
         >
           Conta em duas linhas o que queres construir. Respondo em menos de
-          48 horas — sempre com um humano do outro lado.
+          48 horas, sempre com um humano do outro lado.
         </motion.p>
         <motion.div
           variants={itemVariants}

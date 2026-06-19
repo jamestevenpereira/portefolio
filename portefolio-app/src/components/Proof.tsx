@@ -8,7 +8,7 @@ const counters = [
   { target: 4, label: "websites entregues" },
   { target: 14, label: "anos em tecnologia" },
   { target: 100, label: "clientes satisfeitos", suffix: "%" },
-  { target: 2025, label: "Engenharia Informática", isStatic: true },
+  { target: 48, label: "horas de resposta máxima", suffix: "h" },
 ];
 
 function useCountUp(target: number, active: boolean) {
