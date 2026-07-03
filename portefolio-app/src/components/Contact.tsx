@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { Magnetic, TextReveal } from "@/components/motion/primitives";
 
 function Btn({
   href,
@@ -10,6 +11,7 @@ function Btn({
   hoverStyle,
   target,
   rel,
+  className,
 }: {
   href: string;
   children: React.ReactNode;
@@ -17,6 +19,7 @@ function Btn({
   hoverStyle: React.CSSProperties;
   target?: string;
   rel?: string;
+  className?: string;
 }) {
   const [hovered, setHovered] = useState(false);
   return (
@@ -24,6 +27,7 @@ function Btn({
       href={href}
       target={target}
       rel={rel}
+      className={className}
       style={{
         display: "inline-flex",
         alignItems: "center",
@@ -137,23 +141,34 @@ export default function Contact() {
         >
           06 vamos trabalhar
         </motion.div>
-        <motion.h2
-          variants={itemVariants}
+        <h2
           style={{
             fontFamily: "var(--serif)",
             fontWeight: 400,
             fontSize: "clamp(42px, 6.5vw, 76px)",
-            lineHeight: 1.03,
+            lineHeight: 1.06,
             letterSpacing: "-.015em",
             color: "var(--text)",
           }}
         >
-          Tem uma ideia parada?
+          <TextReveal
+            amount={0.5}
+            stagger={0.08}
+            segments={[{ text: "Tem uma ideia parada?" }]}
+          />
           <br />
-          <span style={{ fontStyle: "italic", color: "var(--ac)" }}>
-            Vamos colocar no ar.
-          </span>
-        </motion.h2>
+          <TextReveal
+            amount={0.5}
+            stagger={0.08}
+            delay={0.35}
+            segments={[
+              {
+                text: "Vamos colocar no ar.",
+                style: { fontStyle: "italic", color: "var(--ac)" },
+              },
+            ]}
+          />
+        </h2>
         <motion.p
           variants={itemVariants}
           style={{
@@ -177,28 +192,33 @@ export default function Contact() {
             marginTop: 36,
           }}
         >
-          <Btn
-            href="mailto:jamestevenpereira@gmail.com"
-            baseStyle={{
-              background: "var(--ac)",
-              color: "#15100a",
-              fontWeight: 600,
-              boxShadow:
-                "0 14px 38px -16px color-mix(in srgb, var(--ac) 80%, transparent)",
-            }}
-            hoverStyle={{ transform: "translateY(-2px)", background: "var(--ac-hot)" }}
-          >
-            Enviar um e-mail
-          </Btn>
-          <Btn
-            href="https://wa.me/351968464987"
-            target="_blank"
-            rel="noopener noreferrer"
-            baseStyle={{ border: "1px solid var(--border)", color: "var(--text)" }}
-            hoverStyle={{ borderColor: "var(--ok)", color: "var(--ok)" }}
-          >
-            WhatsApp
-          </Btn>
+          <Magnetic>
+            <Btn
+              href="mailto:jamestevenpereira@gmail.com"
+              className="shine"
+              baseStyle={{
+                background: "var(--ac)",
+                color: "#15100a",
+                fontWeight: 600,
+                boxShadow:
+                  "0 14px 38px -16px color-mix(in srgb, var(--ac) 80%, transparent)",
+              }}
+              hoverStyle={{ background: "var(--ac-hot)" }}
+            >
+              Enviar um e-mail
+            </Btn>
+          </Magnetic>
+          <Magnetic>
+            <Btn
+              href="https://wa.me/351968464987"
+              target="_blank"
+              rel="noopener noreferrer"
+              baseStyle={{ border: "1px solid var(--border)", color: "var(--text)" }}
+              hoverStyle={{ borderColor: "var(--ok)", color: "var(--ok)" }}
+            >
+              WhatsApp
+            </Btn>
+          </Magnetic>
         </motion.div>
       </motion.div>
 

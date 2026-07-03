@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { Tilt } from "@/components/motion/primitives";
+import SectionHeader from "@/components/SectionHeader";
 
 const projects = [
   {
@@ -64,20 +66,28 @@ function ProjectCard({
 }) {
   const [hovered, setHovered] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // se a imagem falhou antes da hidratação, o onError nunca dispara
+  useEffect(() => {
+    const el = imgRef.current;
+    if (el && el.complete && el.naturalWidth === 0) setImgError(true);
+  }, []);
 
   return (
+    <Tilt max={4} radius={16} style={{ height: "100%" }}>
     <a
       href={p.url}
       target="_blank"
       rel="noopener noreferrer"
       style={{
         display: "block",
+        height: "100%",
         border: `1px solid ${hovered ? "var(--ac-deep)" : "var(--border)"}`,
         borderRadius: 16,
         background: "var(--surface)",
         overflow: "hidden",
-        transition: "transform .3s, border-color .3s, box-shadow .3s",
-        transform: hovered && !isMobile ? "translateY(-4px)" : "none",
+        transition: "border-color .3s, box-shadow .3s",
         boxShadow:
           hovered && !isMobile ? "0 28px 64px -38px rgba(0,0,0,.75)" : "none",
         textDecoration: "none",
@@ -98,6 +108,7 @@ function ProjectCard({
       >
         {!imgError ? (
           <img
+            ref={imgRef}
             src={p.image}
             alt={p.title}
             style={{
@@ -146,6 +157,37 @@ function ProjectCard({
               imagem em breve
             </span>
           </div>
+        )}
+
+        {/* selo "visitar" que aparece em hover (desktop) */}
+        {!isMobile && (
+          <span
+            aria-hidden
+            style={{
+              position: "absolute",
+              top: 14,
+              right: 14,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 7,
+              padding: "8px 14px",
+              borderRadius: 999,
+              fontFamily: "var(--mono)",
+              fontSize: 12,
+              background: "color-mix(in srgb, var(--bg) 78%, transparent)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+              border: "1px solid var(--border)",
+              color: "var(--text)",
+              opacity: hovered ? 1 : 0,
+              transform: hovered
+                ? "translateY(0) scale(1)"
+                : "translateY(6px) scale(.96)",
+              transition: "opacity .25s ease, transform .25s ease",
+            }}
+          >
+            visitar <span style={{ color: "var(--ac)" }}>↗</span>
+          </span>
         )}
       </div>
 
@@ -224,22 +266,13 @@ function ProjectCard({
         </p>
       </div>
     </a>
+    </Tilt>
   );
 }
 
 export default function Work() {
   const reduced = useReducedMotion();
   const isMobile = useIsMobile();
-  const yOffset = reduced ? 0 : 28;
-
-  const headerVariants = {
-    hidden: { opacity: 0, y: yOffset },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" as const },
-    },
-  };
 
   const containerVariants = {
     hidden: {},
@@ -264,42 +297,18 @@ export default function Work() {
         padding: isMobile ? "60px 20px 30px" : "78px 32px 30px",
       }}
     >
-      <motion.div
-        style={{ marginBottom: 42 }}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.7 }}
-        variants={headerVariants}
-      >
-        <div
-          style={{
-            fontFamily: "var(--mono)",
-            fontSize: 13,
-            letterSpacing: ".12em",
-            textTransform: "uppercase",
-            color: "var(--ac)",
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
-          <span style={{ color: "var(--muted-2)" }}>02</span> trabalhos
-          selecionados
-        </div>
-        <h2
-          style={{
-            fontFamily: "var(--serif)",
-            fontWeight: 400,
-            fontSize: "clamp(34px, 4.5vw, 54px)",
-            lineHeight: 1.05,
-            letterSpacing: "-.01em",
-            color: "var(--text)",
-            marginTop: 16,
-          }}
-        >
-          Provas de execução, não galeria.
-        </h2>
-      </motion.div>
+      <SectionHeader
+        index="02"
+        kicker="trabalhos selecionados"
+        segments={[
+          { text: "Provas de " },
+          {
+            text: "execução,",
+            style: { fontStyle: "italic", color: "var(--ac)" },
+          },
+          { text: " não galeria." },
+        ]}
+      />
 
       <motion.div
         style={{
@@ -313,7 +322,7 @@ export default function Work() {
         variants={containerVariants}
       >
         {projects.map((p) => (
-          <motion.div key={p.num} variants={cardVariants}>
+          <motion.div key={p.num} variants={cardVariants} style={{ height: "100%" }}>
             <ProjectCard p={p} isMobile={isMobile} />
           </motion.div>
         ))}
