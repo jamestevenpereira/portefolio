@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import SectionHeader from "@/components/SectionHeader";
 
 const principles = [
   { num: "01", title: "Engenharia primeiro", body: "Um website é um sistema. Decisões de design têm consequências técnicas, e vice-versa." },
@@ -17,14 +18,25 @@ function Card({ num, title, body }: { num: string; title: string; body: string }
   return (
     <div
       style={{
+        height: "100%",
         background: hovered ? "var(--surface)" : "var(--bg-2)",
         padding: "30px 28px",
-        transition: "background .25s",
+        transition: "background .25s, box-shadow .25s",
+        boxShadow: hovered
+          ? "inset 0 0 0 1px color-mix(in srgb, var(--ac) 25%, transparent)"
+          : "inset 0 0 0 1px transparent",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <span style={{ fontFamily: "var(--mono)", fontSize: 13, color: "var(--ac-deep)" }}>
+      <span
+        style={{
+          fontFamily: "var(--mono)",
+          fontSize: 13,
+          color: hovered ? "var(--ac)" : "var(--ac-deep)",
+          transition: "color .25s",
+        }}
+      >
         {num}
       </span>
       <h3
@@ -44,16 +56,6 @@ function Card({ num, title, body }: { num: string; title: string; body: string }
 
 export default function Principles() {
   const reduced = useReducedMotion();
-  const yOffset = reduced ? 0 : 28;
-
-  const headerVariants = {
-    hidden: { opacity: 0, y: yOffset },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" as const },
-    },
-  };
 
   const containerVariants = {
     hidden: {},
@@ -74,41 +76,18 @@ export default function Principles() {
       id="principles"
       style={{ maxWidth: 1180, margin: "0 auto", padding: "96px 32px 30px" }}
     >
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.7 }}
-        variants={headerVariants}
-      >
-        <div
-          style={{
-            fontFamily: "var(--mono)",
-            fontSize: 13,
-            letterSpacing: ".12em",
-            textTransform: "uppercase",
-            color: "var(--ac)",
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            marginBottom: 14,
-          }}
-        >
-          <span style={{ color: "var(--muted-2)" }}>05</span> princípios
-        </div>
-        <h2
-          style={{
-            fontFamily: "var(--serif)",
-            fontWeight: 400,
-            fontSize: "clamp(34px, 4.5vw, 54px)",
-            lineHeight: 1.05,
-            letterSpacing: "-.01em",
-            color: "var(--text)",
-            marginBottom: 44,
-          }}
-        >
-          Como eu opero.
-        </h2>
-      </motion.div>
+      <SectionHeader
+        index="05"
+        kicker="princípios"
+        marginBottom={44}
+        segments={[
+          { text: "Como eu " },
+          {
+            text: "opero.",
+            style: { fontStyle: "italic", color: "var(--ac)" },
+          },
+        ]}
+      />
 
       <motion.div
         style={{
@@ -126,7 +105,7 @@ export default function Principles() {
         variants={containerVariants}
       >
         {principles.map((p) => (
-          <motion.div key={p.num} variants={cardVariants}>
+          <motion.div key={p.num} variants={cardVariants} style={{ height: "100%" }}>
             <Card {...p} />
           </motion.div>
         ))}

@@ -91,13 +91,8 @@ function Counter({
 
 export default function Proof() {
   const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
-  const [active, setActive] = useState(false);
+  const active = useInView(ref, { once: true, amount: 0.3 });
   const isMobile = useIsMobile();
-
-  useEffect(() => {
-    if (isInView) setActive(true);
-  }, [isInView]);
 
   return (
     <section

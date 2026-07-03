@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import SectionHeader from "@/components/SectionHeader";
 
 const liveProjects = [
   {
@@ -31,7 +32,6 @@ export default function OS() {
   const [time, setTime] = useState("--:--:--");
   const reduced = useReducedMotion();
   const isMobile = useIsMobile();
-  const yOffset = reduced ? 0 : 22;
 
   useEffect(() => {
     const tick = () =>
@@ -45,15 +45,6 @@ export default function OS() {
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
-
-  const headerVariants = {
-    hidden: { opacity: 0, y: yOffset },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" as const },
-    },
-  };
 
   const containerVariants = {
     hidden: {},
@@ -78,41 +69,17 @@ export default function OS() {
         padding: isMobile ? "72px 20px 30px" : "96px 32px 30px",
       }}
     >
-      <motion.div
-        style={{ marginBottom: 42 }}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.7 }}
-        variants={headerVariants}
-      >
-        <div
-          style={{
-            fontFamily: "var(--mono)",
-            fontSize: 13,
-            letterSpacing: ".12em",
-            textTransform: "uppercase",
-            color: "var(--ac)",
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
-          <span style={{ color: "var(--muted-2)" }}>03</span> sistema operacional
-        </div>
-        <h2
-          style={{
-            fontFamily: "var(--serif)",
-            fontWeight: 400,
-            fontSize: "clamp(34px, 4.5vw, 54px)",
-            lineHeight: 1.05,
-            letterSpacing: "-.01em",
-            color: "var(--text)",
-            marginTop: 16,
-          }}
-        >
-          Meu sistema, ao vivo.
-        </h2>
-      </motion.div>
+      <SectionHeader
+        index="03"
+        kicker="sistema operacional"
+        segments={[
+          { text: "Meu sistema, " },
+          {
+            text: "ao vivo.",
+            style: { fontStyle: "italic", color: "var(--ac)" },
+          },
+        ]}
+      />
 
       <motion.div
         style={{
