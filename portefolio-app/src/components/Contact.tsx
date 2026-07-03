@@ -2,44 +2,34 @@
 
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Magnetic, TextReveal } from "@/components/motion/primitives";
+import { TextReveal } from "@/components/motion/primitives";
+import ContactForm from "@/components/ContactForm";
+import { CONTACT_EMAIL, WHATSAPP_URL, SOCIALS } from "@/lib/site";
 
-function Btn({
+function InlineLink({
   href,
   children,
-  baseStyle,
-  hoverStyle,
-  target,
-  rel,
-  className,
+  external,
+  hoverColor = "var(--ac)",
 }: {
   href: string;
   children: React.ReactNode;
-  baseStyle: React.CSSProperties;
-  hoverStyle: React.CSSProperties;
-  target?: string;
-  rel?: string;
-  className?: string;
+  external?: boolean;
+  hoverColor?: string;
 }) {
   const [hovered, setHovered] = useState(false);
   return (
     <a
       href={href}
-      target={target}
-      rel={rel}
-      className={className}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
       style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 9,
-        padding: "16px 30px",
-        borderRadius: 11,
-        fontWeight: 500,
-        fontSize: 16,
-        transition:
-          "transform .2s, background .2s, box-shadow .2s, border-color .2s, color .2s",
-        ...baseStyle,
-        ...(hovered ? hoverStyle : {}),
+        fontFamily: "var(--mono)",
+        fontSize: 13,
+        color: hovered ? hoverColor : "var(--text-dim)",
+        borderBottom: `1px solid ${hovered ? hoverColor : "var(--border)"}`,
+        paddingBottom: 2,
+        transition: "color .2s, border-color .2s",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -120,12 +110,12 @@ export default function Contact() {
           position: "relative",
           maxWidth: 860,
           margin: "0 auto",
-          padding: "104px 32px 80px",
+          padding: "104px 20px 80px",
           textAlign: "center",
         }}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.35 }}
+        viewport={{ once: true, amount: 0.2 }}
         variants={containerVariants}
       >
         <motion.div
@@ -182,43 +172,35 @@ export default function Contact() {
           Conta em duas linhas o que queres construir. Respondo em menos de
           48 horas, sempre com um humano do outro lado.
         </motion.p>
+
+        <motion.div
+          variants={itemVariants}
+          style={{ maxWidth: 620, margin: "40px auto 0" }}
+        >
+          <ContactForm />
+        </motion.div>
+
         <motion.div
           variants={itemVariants}
           style={{
             display: "flex",
             flexWrap: "wrap",
-            gap: 14,
+            gap: "10px 26px",
             justifyContent: "center",
-            marginTop: 36,
+            alignItems: "center",
+            marginTop: 28,
+            fontFamily: "var(--mono)",
+            fontSize: 13,
+            color: "var(--muted)",
           }}
         >
-          <Magnetic>
-            <Btn
-              href="mailto:jamestevenpereira@gmail.com"
-              className="shine"
-              baseStyle={{
-                background: "var(--ac)",
-                color: "#15100a",
-                fontWeight: 600,
-                boxShadow:
-                  "0 14px 38px -16px color-mix(in srgb, var(--ac) 80%, transparent)",
-              }}
-              hoverStyle={{ background: "var(--ac-hot)" }}
-            >
-              Enviar um e-mail
-            </Btn>
-          </Magnetic>
-          <Magnetic>
-            <Btn
-              href="https://wa.me/351968464987"
-              target="_blank"
-              rel="noopener noreferrer"
-              baseStyle={{ border: "1px solid var(--border)", color: "var(--text)" }}
-              hoverStyle={{ borderColor: "var(--ok)", color: "var(--ok)" }}
-            >
-              WhatsApp
-            </Btn>
-          </Magnetic>
+          <span>ou diretamente:</span>
+          <InlineLink href={`mailto:${CONTACT_EMAIL}`}>
+            {CONTACT_EMAIL}
+          </InlineLink>
+          <InlineLink href={WHATSAPP_URL} external hoverColor="var(--ok)">
+            whatsapp ↗
+          </InlineLink>
         </motion.div>
       </motion.div>
 
@@ -264,19 +246,19 @@ export default function Contact() {
           </div>
           <div style={{ display: "flex", gap: 22 }}>
             <FooterLink
-              href="https://github.com/jamestevenpereira"
+              href={SOCIALS.github}
               ariaLabel="GitHub (abre numa nova janela)"
             >
               github
             </FooterLink>
             <FooterLink
-              href="https://www.linkedin.com/in/james-steven-8b9b1638a/"
+              href={SOCIALS.linkedin}
               ariaLabel="LinkedIn (abre numa nova janela)"
             >
               linkedin
             </FooterLink>
             <FooterLink
-              href="https://www.instagram.com/jamesteven_"
+              href={SOCIALS.instagram}
               ariaLabel="Instagram (abre numa nova janela)"
             >
               instagram
