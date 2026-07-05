@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { CONTACT_EMAIL, SITE_NAME } from "@/lib/site";
+import { isValidName, isValidEmail, isValidMessage } from "@/lib/validation";
 
 /**
  * Endpoint do formulário de contacto.
@@ -29,8 +30,6 @@ type Payload = {
   /** ms desde que o formulário abriu — bots submetem instantaneamente */
   elapsed?: number;
 };
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 function escapeHtml(s: string) {
   return s
@@ -92,14 +91,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  if (
-    name.length < 2 ||
-    name.length > 120 ||
-    !EMAIL_RE.test(email) ||
-    email.length > 254 ||
-    message.length < 10 ||
-    message.length > 5000
-  ) {
+  if (!isValidName(name) || !isValidEmail(email) || !isValidMessage(message)) {
     return NextResponse.json(
       { ok: false, reason: "invalid" },
       { status: 400 }

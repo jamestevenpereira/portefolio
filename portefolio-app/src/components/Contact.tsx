@@ -194,12 +194,12 @@ export default function Contact() {
             color: "var(--muted)",
           }}
         >
-          <span>ou diretamente:</span>
+          <span>Ou diretamente:</span>
           <InlineLink href={`mailto:${CONTACT_EMAIL}`}>
             {CONTACT_EMAIL}
           </InlineLink>
           <InlineLink href={WHATSAPP_URL} external hoverColor="var(--ok)">
-            whatsapp ↗
+            WhatsApp ↗
           </InlineLink>
         </motion.div>
       </motion.div>
@@ -249,23 +249,23 @@ export default function Contact() {
               href={SOCIALS.github}
               ariaLabel="GitHub (abre numa nova janela)"
             >
-              github
+              GitHub
             </FooterLink>
             <FooterLink
               href={SOCIALS.linkedin}
               ariaLabel="LinkedIn (abre numa nova janela)"
             >
-              linkedin
+              LinkedIn
             </FooterLink>
             <FooterLink
               href={SOCIALS.instagram}
               ariaLabel="Instagram (abre numa nova janela)"
             >
-              instagram
+              Instagram
             </FooterLink>
           </div>
           <div style={{ color: "var(--muted-2)" }}>
-            feito com código e curiosidade em viseu
+            Feito com código e curiosidade em Viseu
           </div>
         </div>
       </motion.footer>

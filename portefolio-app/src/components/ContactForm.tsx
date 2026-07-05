@@ -4,6 +4,16 @@ import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { EASE, Magnetic } from "@/components/motion/primitives";
 import { CONTACT_EMAIL, WHATSAPP_URL } from "@/lib/site";
+import {
+  NAME_MIN,
+  NAME_MAX,
+  EMAIL_MAX,
+  MSG_MIN,
+  MSG_MAX,
+  isValidName,
+  isValidEmail,
+  ERRORS,
+} from "@/lib/validation";
 
 type Status = "idle" | "sending" | "sent" | "error" | "unconfigured";
 
@@ -20,14 +30,18 @@ const labelStyle: React.CSSProperties = {
 
 function Field({
   label,
+  htmlFor,
   children,
 }: {
   label: string;
+  htmlFor: string;
   children: React.ReactNode;
 }) {
   return (
     <div>
-      <label style={labelStyle}>{label}</label>
+      <label style={labelStyle} htmlFor={htmlFor}>
+        {label}
+      </label>
       {children}
     </div>
   );
@@ -76,9 +90,9 @@ export default function ContactForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: fd.get("name"),
-          email: fd.get("email"),
-          message: fd.get("message"),
+          name: String(fd.get("name") ?? "").trim(),
+          email: String(fd.get("email") ?? "").trim(),
+          message: String(fd.get("message") ?? "").trim(),
           company: fd.get("company"),
           elapsed: openedAt.current ? Date.now() - openedAt.current : 0,
         }),
@@ -152,27 +166,47 @@ export default function ContactForm() {
           gap: 18,
         }}
       >
-        <Field label="nome">
+        <Field label="nome" htmlFor="contact-name">
           <input
+            id="contact-name"
             name="name"
             required
-            minLength={2}
-            maxLength={120}
+            minLength={NAME_MIN}
+            maxLength={NAME_MAX}
             autoComplete="name"
-            placeholder="O teu nome"
+            placeholder="Nome completo"
+            title={ERRORS.name}
+            onChange={(e) =>
+              e.currentTarget.setCustomValidity(
+                e.currentTarget.value === "" ||
+                  isValidName(e.currentTarget.value.trim())
+                  ? ""
+                  : ERRORS.name
+              )
+            }
             style={input.style("name")}
             onFocus={input.onFocus("name")}
             onBlur={input.onBlur}
           />
         </Field>
-        <Field label="email">
+        <Field label="email" htmlFor="contact-email">
           <input
+            id="contact-email"
             name="email"
             type="email"
             required
-            maxLength={254}
+            maxLength={EMAIL_MAX}
             autoComplete="email"
-            placeholder="para onde respondo"
+            placeholder="exemplo@email.com"
+            title={ERRORS.email}
+            onChange={(e) =>
+              e.currentTarget.setCustomValidity(
+                e.currentTarget.value === "" ||
+                  isValidEmail(e.currentTarget.value.trim())
+                  ? ""
+                  : ERRORS.email
+              )
+            }
             style={input.style("email")}
             onFocus={input.onFocus("email")}
             onBlur={input.onBlur}
@@ -180,14 +214,15 @@ export default function ContactForm() {
         </Field>
       </div>
 
-      <Field label="mensagem">
+      <Field label="mensagem" htmlFor="contact-message">
         <textarea
+          id="contact-message"
           name="message"
           required
-          minLength={10}
-          maxLength={5000}
+          minLength={MSG_MIN}
+          maxLength={MSG_MAX}
           rows={5}
-          placeholder="Conta em duas linhas o que queres construir…"
+          placeholder="Descreva brevemente o seu projeto ou objetivo"
           style={input.style("message")}
           onFocus={input.onFocus("message")}
           onBlur={input.onBlur}
@@ -248,6 +283,7 @@ export default function ContactForm() {
           display: "flex",
           flexWrap: "wrap",
           alignItems: "center",
+          justifyContent: "center",
           gap: 16,
           marginTop: 4,
         }}
@@ -286,7 +322,7 @@ export default function ContactForm() {
             color: "var(--muted)",
           }}
         >
-          resposta em &lt; 48h
+          Resposta em &lt; 48h
         </span>
       </div>
     </form>

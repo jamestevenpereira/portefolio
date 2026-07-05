@@ -1,12 +1,25 @@
-import { useState, useEffect } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 
+/**
+ * Deteta viewport mobile via matchMedia com useSyncExternalStore:
+ * lê o valor correto antes do primeiro paint no cliente (sem flash de
+ * layout desktop) e mantém-se consistente com a hidratação (SSR → false).
+ */
 export function useIsMobile(breakpoint = 768) {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < breakpoint);
-    check();
-    window.addEventListener("resize", check, { passive: true });
-    return () => window.removeEventListener("resize", check);
-  }, [breakpoint]);
-  return isMobile;
+  const query = `(max-width: ${breakpoint - 1}px)`;
+
+  const subscribe = useCallback(
+    (onChange: () => void) => {
+      const mql = window.matchMedia(query);
+      mql.addEventListener("change", onChange);
+      return () => mql.removeEventListener("change", onChange);
+    },
+    [query]
+  );
+
+  return useSyncExternalStore(
+    subscribe,
+    () => window.matchMedia(query).matches,
+    () => false
+  );
 }

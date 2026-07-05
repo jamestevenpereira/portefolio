@@ -6,12 +6,12 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import { ScrollProgress } from "@/components/motion/primitives";
 
 const sections = [
-  { href: "#about", label: "sobre" },
-  { href: "#work", label: "trabalhos" },
-  { href: "#os", label: "sistema" },
-  { href: "#story", label: "história" },
-  { href: "#principles", label: "princípios" },
-  { href: "#contact", label: "contacto" },
+  { href: "#about", label: "Sobre" },
+  { href: "#work", label: "Trabalhos" },
+  { href: "#os", label: "Sistema" },
+  { href: "#story", label: "História" },
+  { href: "#principles", label: "Princípios" },
+  { href: "#contact", label: "Contacto" },
 ];
 
 function NavLink({ href, label }: { href: string; label: string }) {
@@ -102,7 +102,7 @@ export default function Nav() {
           }}
         >
           <a
-            href="#"
+            href="#top"
             style={{
               display: "flex",
               alignItems: "center",

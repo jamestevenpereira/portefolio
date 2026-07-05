@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 import Analytics from "@/components/Analytics";
 import { SITE_URL, SITE_NAME, CONTACT_EMAIL, SOCIALS } from "@/lib/site";
 
@@ -69,6 +70,12 @@ export const metadata: Metadata = {
     images: ["/og.png"],
   },
   robots: { index: true, follow: true },
+  icons: { icon: "/favicon.ico" },
+  manifest: "/manifest.webmanifest",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0F0C0A",
 };
 
 /** Dados estruturados schema.org — pessoa + serviço profissional local */
@@ -132,6 +139,7 @@ export default function RootLayout({
         />
         <Nav />
         <main style={{ paddingTop: 52 }}>{children}</main>
+        <WhatsAppFloat />
         <Analytics />
       </body>
     </html>

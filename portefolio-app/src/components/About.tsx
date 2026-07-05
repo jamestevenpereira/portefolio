@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
@@ -31,6 +32,7 @@ export default function About() {
         padding: isMobile ? "72px 20px 30px" : "104px 32px 30px",
       }}
     >
+      <h2 className="sr-only">Sobre</h2>
       <motion.div
         style={{
           display: "grid",
@@ -43,20 +45,42 @@ export default function About() {
         viewport={{ once: true, amount: 0.3 }}
         variants={stagger}
       >
-        <motion.div
-          variants={fadeUp}
-          style={{
-            fontFamily: "var(--mono)",
-            fontSize: 13,
-            letterSpacing: ".12em",
-            textTransform: "uppercase" as const,
-            color: "var(--ac)",
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
-          <span style={{ color: "var(--muted-2)" }}>01</span> sobre
+        <motion.div variants={stagger}>
+          <motion.div
+            variants={fadeUp}
+            style={{
+              fontFamily: "var(--mono)",
+              fontSize: 13,
+              letterSpacing: ".12em",
+              textTransform: "uppercase" as const,
+              color: "var(--ac)",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <span style={{ color: "var(--muted-2)" }}>01</span> sobre
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            style={{
+              position: "relative",
+              marginTop: 28,
+              maxWidth: isMobile ? 320 : 380,
+              aspectRatio: "4 / 5",
+              borderRadius: 6,
+              overflow: "hidden",
+              border: "1px solid var(--muted-2)",
+            }}
+          >
+            <Image
+              src="/Imagem_Profissional.webp"
+              alt="Fotografia profissional"
+              fill
+              sizes="(max-width: 768px) 320px, 380px"
+              style={{ objectFit: "cover" }}
+            />
+          </motion.div>
         </motion.div>
         <motion.div variants={stagger}>
           <motion.p
