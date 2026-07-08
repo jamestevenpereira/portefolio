@@ -52,7 +52,15 @@ function Counter({
 
   return (
     <motion.div
-      style={{ background: "var(--bg-2)", padding: "30px 26px" }}
+      style={{
+        background: "var(--bg-2)",
+        padding: "30px 26px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+      }}
       initial={{ opacity: 0, y: yOffset }}
       animate={active ? { opacity: 1, y: 0 } : { opacity: 0, y: yOffset }}
       transition={{
@@ -91,13 +99,8 @@ function Counter({
 
 export default function Proof() {
   const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
-  const [active, setActive] = useState(false);
+  const active = useInView(ref, { once: true, amount: 0.3 });
   const isMobile = useIsMobile();
-
-  useEffect(() => {
-    if (isInView) setActive(true);
-  }, [isInView]);
 
   return (
     <section
@@ -109,6 +112,7 @@ export default function Proof() {
         padding: isMobile ? "40px 20px" : "56px 32px",
       }}
     >
+      <h2 className="sr-only">Resultados em números</h2>
       <div
         style={{
           display: "grid",

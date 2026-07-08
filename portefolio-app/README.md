@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portefólio — James Steven
 
-## Getting Started
+Site pessoal em [Next.js](https://nextjs.org) (App Router) + Tailwind 4 +
+Framer Motion, publicado no Netlify a partir do branch `main`.
 
-First, run the development server:
+- **Produção:** https://james-steven-portefolio.netlify.app
+- **Painel Netlify:** https://app.netlify.com/projects/james-steven-portefolio
+- **Sistema de design:** ver [`Design.md`](./Design.md)
+
+## Desenvolvimento
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # build de produção
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deploy
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Deploy contínuo via Netlify (base directory `portefolio-app`, publish
+`portefolio-app/.next`, plugin `@netlify/plugin-nextjs`). Qualquer push ao
+`main` publica automaticamente.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Variáveis de ambiente (Netlify → Environment variables)
 
-## Learn More
+| Variável | Obrigatória | Descrição |
+|---|---|---|
+| `RESEND_API_KEY` | para o formulário | Chave da API do [Resend](https://resend.com). Sem ela, o formulário de contacto devolve 503 e mostra os contactos diretos como fallback. |
+| `CONTACT_FROM_EMAIL` | não | Remetente dos emails, ex. `James Steven <contacto@dominio.pt>`. Requer domínio verificado no Resend. Default: `onboarding@resend.dev` (modo de teste — só entrega ao dono da conta; a confirmação ao cliente fica pendente até haver domínio verificado). |
+| `CONTACT_TO_EMAIL` | não | Destino das notificações do formulário. Default: `jamestevenpereira@gmail.com`. |
+| `NEXT_PUBLIC_SITE_URL` | não | URL canónico do site quando houver domínio próprio, ex. `https://jamessteven.pt`. Default: URL do Netlify. Afeta sitemap, canonical, Open Graph e JSON-LD. |
+| `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | não | Ativa o [Plausible Analytics](https://plausible.io) com o domínio indicado. Sem a variável, nenhum script de analytics é carregado. |
 
-To learn more about Next.js, take a look at the following resources:
+### Ativar o formulário de contacto (Resend)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Criar conta em https://resend.com (plano gratuito: 100 emails/dia)
+2. Criar uma API key e defini-la como `RESEND_API_KEY` no Netlify
+3. Redeploy — o formulário fica ativo (notificações chegam ao Gmail)
+4. Quando houver domínio próprio: verificar o domínio no Resend e definir
+   `CONTACT_FROM_EMAIL` — a partir daí o cliente também recebe o email de
+   confirmação automática
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Open Graph
 
-## Deploy on Vercel
+A imagem social (`public/og.png`, 1200×630) é gerada por screenshot da
+página interna `/og` (não indexada). Para regenerar depois de mudar o
+design:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build && npm run start &   # servir localmente
+npx playwright screenshot --viewport-size=1200,630 \
+  http://localhost:3000/og public/og.png
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+(ou qualquer screenshot do elemento do cartão a 1200×630)
+
+## Imagens dos projetos
+
+Colocar em `public/projects/` com os nomes referidos em
+`src/components/Work.tsx` (`silkadelics.jpg`, `conceicao-lopes.jpg`,
+`irmaos-santos.jpg`, `the-t-lab.jpg`), formato 16:9, largura ≥ 1200px.
+Enquanto não existirem, os cartões mostram o placeholder "imagem em breve".

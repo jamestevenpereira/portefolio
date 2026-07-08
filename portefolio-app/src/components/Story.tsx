@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import SectionHeader from "@/components/SectionHeader";
 
 const events = [
   {
@@ -45,15 +46,6 @@ export default function Story() {
   const reduced = useReducedMotion();
   const isMobile = useIsMobile();
 
-  const leftVariants = {
-    hidden: { opacity: 0, x: reduced ? 0 : -28 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.65, ease: "easeOut" as const },
-    },
-  };
-
   const containerVariants = {
     hidden: {},
     visible: {
@@ -87,41 +79,20 @@ export default function Story() {
           alignItems: "start",
         }}
       >
-        <motion.div
-          style={{ position: isMobile ? "static" : "sticky", top: 96 }}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }}
-          variants={leftVariants}
-        >
-          <div
-            style={{
-              fontFamily: "var(--mono)",
-              fontSize: 13,
-              letterSpacing: ".12em",
-              textTransform: "uppercase",
-              color: "var(--ac)",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <span style={{ color: "var(--muted-2)" }}>04</span> como cheguei aqui
-          </div>
-          <h2
-            style={{
-              fontFamily: "var(--serif)",
-              fontWeight: 400,
-              fontSize: "clamp(34px, 4.5vw, 54px)",
-              lineHeight: 1.05,
-              letterSpacing: "-.01em",
-              color: "var(--text)",
-              marginTop: 16,
-            }}
-          >
-            Menos um currículo, mais uma trajetória.
-          </h2>
-        </motion.div>
+        <div style={{ position: isMobile ? "static" : "sticky", top: 96 }}>
+          <SectionHeader
+            index="04"
+            kicker="como cheguei aqui"
+            marginBottom={0}
+            segments={[
+              { text: "Menos um currículo, mais uma " },
+              {
+                text: "trajetória.",
+                style: { fontStyle: "italic", color: "var(--ac)" },
+              },
+            ]}
+          />
+        </div>
 
         <motion.div
           style={{

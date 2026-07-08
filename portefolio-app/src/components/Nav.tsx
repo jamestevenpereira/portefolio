@@ -3,14 +3,15 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { ScrollProgress } from "@/components/motion/primitives";
 
 const sections = [
-  { href: "#about", label: "sobre" },
-  { href: "#work", label: "trabalhos" },
-  { href: "#os", label: "sistema" },
-  { href: "#story", label: "história" },
-  { href: "#principles", label: "princípios" },
-  { href: "#contact", label: "contacto" },
+  { href: "#about", label: "Sobre" },
+  { href: "#work", label: "Trabalhos" },
+  { href: "#os", label: "Sistema" },
+  { href: "#story", label: "História" },
+  { href: "#principles", label: "Princípios" },
+  { href: "#contact", label: "Contacto" },
 ];
 
 function NavLink({ href, label }: { href: string; label: string }) {
@@ -19,6 +20,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
     <a
       href={href}
       style={{
+        position: "relative",
         fontFamily: "var(--mono)",
         fontSize: 12,
         letterSpacing: ".04em",
@@ -29,6 +31,20 @@ function NavLink({ href, label }: { href: string; label: string }) {
       onMouseLeave={() => setHovered(false)}
     >
       {label}
+      <span
+        aria-hidden
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: -5,
+          height: 1,
+          background: "var(--ac)",
+          transform: hovered ? "scaleX(1)" : "scaleX(0)",
+          transformOrigin: "0 50%",
+          transition: "transform .25s ease",
+        }}
+      />
     </a>
   );
 }
@@ -54,6 +70,7 @@ export default function Nav() {
 
   return (
     <>
+      <ScrollProgress />
       <nav
         style={{
           position: "fixed",
@@ -85,7 +102,7 @@ export default function Nav() {
           }}
         >
           <a
-            href="#"
+            href="#top"
             style={{
               display: "flex",
               alignItems: "center",
