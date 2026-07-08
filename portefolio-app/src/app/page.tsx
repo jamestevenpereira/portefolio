@@ -6,6 +6,8 @@ import Work from "@/components/Work";
 import OS from "@/components/OS";
 import Story from "@/components/Story";
 import Principles from "@/components/Principles";
+import Packages from "@/components/Packages";
+import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
 
 export default function Home() {
@@ -20,6 +22,8 @@ export default function Home() {
         <OS />
         <Story />
         <Principles />
+        <Packages />
+        <FAQ />
         <Contact />
       </div>
     </div>

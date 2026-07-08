@@ -9,6 +9,29 @@ import {
   Tilt,
   TextReveal,
 } from "@/components/motion/primitives";
+import {
+  siNextdotjs,
+  siTypescript,
+  siReact,
+  siAngular,
+  siNodedotjs,
+  siSupabase,
+  siTailwindcss,
+  siFramer,
+  siFigma,
+} from "simple-icons";
+
+const STACK = [
+  { icon: siNextdotjs,  label: "Next.js",       color: "var(--text)" },
+  { icon: siTypescript, label: "TypeScript",     color: `#${siTypescript.hex}` },
+  { icon: siReact,      label: "React",          color: `#${siReact.hex}` },
+  { icon: siAngular,    label: "Angular",        color: "var(--text-dim)" },
+  { icon: siNodedotjs,  label: "Node.js",        color: `#${siNodedotjs.hex}` },
+  { icon: siSupabase,   label: "Supabase",       color: `#${siSupabase.hex}` },
+  { icon: siTailwindcss,label: "Tailwind",       color: `#${siTailwindcss.hex}` },
+  { icon: siFramer,     label: "Framer Motion",  color: `#${siFramer.hex}` },
+  { icon: siFigma,      label: "Figma",          color: `#${siFigma.hex}` },
+] as const;
 
 function HoverBtn({
   href,
@@ -375,63 +398,51 @@ export default function Hero() {
         )}
       </div>
 
-      <motion.div
-        className="marquee-mask"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.1 }}
+      <div
         style={{
-          overflow: "hidden",
           borderTop: "1px solid var(--border-soft)",
           borderBottom: "1px solid var(--border-soft)",
           background: "var(--bg-2)",
         }}
       >
         <div
-          className="marquee-track"
           style={{
+            maxWidth: 1180,
+            margin: "0 auto",
+            padding: isMobile ? "16px 20px" : "16px 32px",
             display: "flex",
-            width: "max-content",
+            flexWrap: "wrap",
+            gap: "10px 26px",
+            alignItems: "center",
             fontFamily: "var(--mono)",
-            fontSize: 12.5,
-            letterSpacing: ".18em",
+            fontSize: 12,
+            letterSpacing: ".14em",
             textTransform: "uppercase",
-            color: "var(--muted)",
+            color: "var(--muted-2)",
           }}
         >
-          {[0, 1].map((i) => (
-            <div
-              key={i}
-              aria-hidden={i === 1 ? true : undefined}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                padding: "13px 0",
-              }}
+          <span style={{ color: "var(--muted)" }}>Stack</span>
+          {STACK.map(({ icon, label, color }) => (
+            <span
+              key={label}
+              style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
             >
-              {[
-                "Next.js",
-                "TypeScript",
-                "Tailwind",
-                "React",
-                "Angular",
-                "Node.js",
-                "Supabase",
-                "Framer Motion",
-                "Figma",
-              ].map((tech) => (
-                <span
-                  key={tech}
-                  style={{ display: "flex", alignItems: "center" }}
-                >
-                  <span style={{ padding: "0 26px" }}>{tech}</span>
-                  <span style={{ color: "var(--ac-deep)" }}>◆</span>
-                </span>
-              ))}
-            </div>
+              <svg
+                role="img"
+                viewBox="0 0 24 24"
+                width={13}
+                height={13}
+                fill={color}
+                style={{ flexShrink: 0, opacity: 0.9 }}
+                aria-label={icon.title}
+              >
+                <path d={icon.path} />
+              </svg>
+              {label}
+            </span>
           ))}
         </div>
-      </motion.div>
+      </div>
     </header>
   );
 }
