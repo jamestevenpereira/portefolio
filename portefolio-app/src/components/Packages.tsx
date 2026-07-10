@@ -166,7 +166,7 @@ function Card({ pack, isMobile, variants }: { pack: Pack; isMobile: boolean; var
 
       <div style={{ marginTop: 22 }}>
         <div style={{ fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--muted)" }}>{pack.setup}</div>
-        <div style={{ fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--muted-2)", marginTop: 3 }}>{pack.annual}</div>
+        <div style={{ fontFamily: "var(--mono)", fontSize: 12.5, color: "var(--muted)", marginTop: 3 }}>{pack.annual}</div>
       </div>
 
       <a

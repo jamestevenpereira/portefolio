@@ -16,7 +16,7 @@ const projects = [
     role: "banda de casamentos premium",
     detail:
       "Website completo para banda de casamentos de alta gama, com galeria de atuações, repertório e contacto directo.",
-    image: "/projects/silkadelics.jpg",
+    image: "/projects/Silkadelics-Portefolio.png",
     url: "https://www.silkadelics.pt/",
   },
   {
@@ -29,6 +29,7 @@ const projects = [
     detail:
       "Site para advogada com 7+ anos de experiência. 6 áreas de prática, depoimentos de clientes e sistema de marcação de consultas.",
     image: "/projects/conceicao-lopes.jpg",
+    pendingNote: "em aprovação do cliente",
     url: "https://advogada-sable.vercel.app/",
   },
   {
@@ -40,7 +41,7 @@ const projects = [
     role: "empresa de obras com 30+ anos",
     detail:
       "Website institucional para empresa de construção civil em Nelas. Serviços, portefólio de obras e formulário de pedido de orçamento.",
-    image: "/projects/irmaos-santos.jpg",
+    image: "/projects/IJSantos-Portefolio.png",
     url: "https://ijsantos-site.pages.dev/",
   },
   {
@@ -52,7 +53,7 @@ const projects = [
     role: "identidade e presença online",
     detail:
       "Website institucional desenvolvido de raiz, do design ao código ao domínio final.",
-    image: "/projects/the-t-lab.jpg",
+    image: "/projects/The-Talent-Lab-Portefolio.png",
     url: "https://the-t-lab.com/",
   },
 ];
@@ -145,17 +146,46 @@ function ProjectCard({
             >
               {p.num}
             </span>
-            <span
-              style={{
-                fontFamily: "var(--mono)",
-                fontSize: 11,
-                color: "var(--muted-2)",
-                letterSpacing: ".12em",
-                textTransform: "uppercase",
-              }}
-            >
-              imagem em breve
-            </span>
+            {p.pendingNote ? (
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  fontFamily: "var(--mono)",
+                  fontSize: 11.5,
+                  color: "var(--warn)",
+                  padding: "6px 12px",
+                  border:
+                    "1px solid color-mix(in srgb, var(--warn) 35%, var(--border))",
+                  borderRadius: 999,
+                  letterSpacing: ".04em",
+                }}
+              >
+                <span
+                  style={{
+                    width: 7,
+                    height: 7,
+                    borderRadius: "50%",
+                    background: "var(--warn)",
+                    animation: "pulseDot 2s infinite",
+                  }}
+                />
+                {p.pendingNote}
+              </div>
+            ) : (
+              <span
+                style={{
+                  fontFamily: "var(--mono)",
+                  fontSize: 11,
+                  color: "var(--muted-2)",
+                  letterSpacing: ".12em",
+                  textTransform: "uppercase",
+                }}
+              >
+                imagem em breve
+              </span>
+            )}
           </div>
         )}
 

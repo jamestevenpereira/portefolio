@@ -195,7 +195,6 @@ a {
     scroll-behavior: auto;
   }
   .aurora,
-  .marquee-track,
   .floaty {
     animation: none !important;
   }

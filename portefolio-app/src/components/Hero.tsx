@@ -411,9 +411,8 @@ export default function Hero() {
             margin: "0 auto",
             padding: isMobile ? "16px 20px" : "16px 32px",
             display: "flex",
-            flexWrap: "wrap",
-            gap: "10px 26px",
             alignItems: "center",
+            gap: 20,
             fontFamily: "var(--mono)",
             fontSize: 12,
             letterSpacing: ".14em",
@@ -421,26 +420,38 @@ export default function Hero() {
             color: "var(--muted-2)",
           }}
         >
-          <span style={{ color: "var(--muted)" }}>Stack</span>
-          {STACK.map(({ icon, label, color }) => (
-            <span
-              key={label}
-              style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
-            >
-              <svg
-                role="img"
-                viewBox="0 0 24 24"
-                width={13}
-                height={13}
-                fill={color}
-                style={{ flexShrink: 0, opacity: 0.9 }}
-                aria-label={icon.title}
-              >
-                <path d={icon.path} />
-              </svg>
-              {label}
-            </span>
-          ))}
+          <span style={{ color: "var(--muted)", flexShrink: 0 }}>Stack</span>
+          <div className="marquee-mask" style={{ overflow: "hidden", flex: 1, minWidth: 0 }}>
+            <div className="marquee-track" style={{ display: "flex", width: "max-content", gap: 26 }}>
+              {[0, 1].map((i) => (
+                <div
+                  key={i}
+                  aria-hidden={i === 1 ? true : undefined}
+                  style={{ display: "flex", alignItems: "center", gap: 26 }}
+                >
+                  {STACK.map(({ icon, label, color }) => (
+                    <span
+                      key={label}
+                      style={{ display: "inline-flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}
+                    >
+                      <svg
+                        role="img"
+                        viewBox="0 0 24 24"
+                        width={13}
+                        height={13}
+                        fill={color}
+                        style={{ flexShrink: 0, opacity: 0.9 }}
+                        aria-label={icon.title}
+                      >
+                        <path d={icon.path} />
+                      </svg>
+                      {label}
+                    </span>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </header>

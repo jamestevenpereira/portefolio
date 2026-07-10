@@ -78,6 +78,7 @@ function Item({
           {q}
         </span>
         <motion.span
+          aria-hidden
           animate={{ rotate: open ? 45 : 0 }}
           transition={{ duration: reduced ? 0 : 0.2 }}
           style={{ flexShrink: 0, fontFamily: "var(--mono)", fontSize: 24, color: "var(--muted)", lineHeight: 1 }}
